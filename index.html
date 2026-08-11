@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apéros Chièvrois - Bar</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f3f3f3;
+      padding: 15px;
+    }
+
+    .app {
+      max-width: 500px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 10px 0 20px;
+    }
+
+    .drink {
+      display: grid;
+      grid-template-columns: 1fr 60px 55px 55px 55px;
+      align-items: center;
+      background: white;
+      padding: 8px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      font-size: 18px;
+    }
+
+    .price {
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .qty {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    button {
+      font-size: 24px;
+      height: 45px;
+      border: 0;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .minus {
+      background: #ddd;
+    }
+
+    .plus {
+      background: #ddd;
+    }
+
+    #total {
+      margin-top: 15px;
+      background: #222;
+      color: white;
+      padding: 18px;
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 10px;
+    }
+
+    #reset {
+      width: 100%;
+      margin-top: 12px;
+      background: #d9534f;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      height: 55px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+<h1>🍹 Apéros Chièvrois</h1>
+
+<div id="drinks"></div>
+
+<div id="total">TOTAL : 0 €</div>
+
+<button id="reset" onclick="resetOrder()">NOUVELLE COMMANDE</button>
+
+</div>
+
+<script>
+
+const drinks = [
+  ["Pils", 2],
+  ["Saison", 4],
+  ["Kriek", 3],
+  ["Violette", 4],
+  ["Desperados", 4],
+  ["Eau", 1],
+  ["Coca / Coca Zero", 2],
+  ["Thé glacé maison", 3],
+  ["Mousseux", 5],
+  ["Cocktails", 8]
+];
+
+let quantities = new Array(drinks.length).fill(0);
+
+function createDrinks() {
+
+  const container = document.getElementById("drinks");
+
+  drinks.forEach((drink, index) => {
+
+    const row = document.createElement("div");
+    row.className = "drink";
+
+    row.innerHTML = `
+      <div>${drink[0]}</div>
+      <div class="price">${drink[1]} €</div>
+
+      <button class="minus"
+        onclick="changeQty(${index},-1)">−</button>
+
+      <div class="qty" id="qty${index}">0</div>
+
+      <button class="plus"
+        onclick="changeQty(${index},1)">+</button>
+    `;
+
+    container.appendChild(row);
+  });
+}
+
+function changeQty(index, change) {
+
+  quantities[index] += change;
+
+  if (quantities[index] < 0) {
+    quantities[index] = 0;
+  }
+
+  document.getElementById("qty" + index).innerText =
+    quantities[index];
+
+  calculateTotal();
+}
+
+function calculateTotal() {
+
+  let total = 0;
+
+  drinks.forEach((drink,index) => {
+    total += drink[1] * quantities[index];
+  });
+
+  document.getElementById("total").innerText =
+    "TOTAL : " + total + " €";
+}
+
+function resetOrder() {
+
+  quantities.fill(0);
+
+  quantities.forEach((q,index) => {
+    document.getElementById("qty" + index).innerText = 0;
+  });
+
+  calculateTotal();
+}
+
+createDrinks();
+
+</script>
+
+</body>
+</html>
