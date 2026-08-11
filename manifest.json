@@ -1,0 +1,11 @@
+{
+  "name": "Apéros Chièvrois - Bar",
+  "short_name": "Apéros Bar",
+  "description": "Calculateur de commandes du bar des Apéros Chièvrois",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#222222",
+  "lang": "fr"
+}
